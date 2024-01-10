@@ -165,7 +165,6 @@ document.getElementById('filtertag').addEventListener('change', function(e) {
 });
 
 
-displayFilteredPosts(filteredPosts);
 
 
 
