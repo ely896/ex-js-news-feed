@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>News Feed</title>
+</head>
+
+<body>
+    <!--Start Header-->
+    <header id="site_header">
+        <h1 class="text-align-center p05">News Feed</h1>
+
+        <div class="container">
+            <div id="" class="row p05">
+                <div class="col-5">
+                    <div class="selectpost">
+                        <div class="display-flex">
+                            <label for="filtertag">
+                                <h5>Filtra per tags:</h5>
+                            </label>
+                            <select id="filtertag" name="tag">
+                                <option value="all">Tutti i tags</option>
+                                <option value="Politica">Politica</option>
+                                <option value="Geo">Geo</option>
+                                <option value="Tech">Tech</option>
+                                <option value="Viaggi">Viaggi</option>
+                                <option value="Cucina">Cucina</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="newssalvate" id="savedFilter">
+                            <label for="newssalvate">Solo news salvate</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--Finish Header-->
+    <!--Start Main-->
+    <main id="site_main">
+        <div class="container posts">
+            <div class="row">
+                <!--templete literal for card-->
+                <!-- <div class="col-5">
+                    <div class="card">
+                        <div class="intestazione p05">
+                            <h3 class="title">Scoperta di una nuova specie di papera di gomma</h3>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+
+                        <h5 class="text-align-left p05">Pubblicato da: Diana Rossi</h5>
+                        <p class="text-align-left p05">in data 11/22/2023</p>
+                        <p class="text-align-left p05">Scoperta di una nuova specie di papera di gomma</p>
+
+
+                        <img src="./img/rubber-duck.jpg" alt="">
+
+                        <div class="text-align-left">
+                            <button name="arte" type="button">Arte</button>
+                            <button type="button">Tech</button>
+                        </div>
+                    </div>
+                </div> -->
+                <!--Finish templete liberale for card-->
+            </div>
+        </div>
+    </main>
+    <!--Finish Main-->
+    <!--Start Footer-->
+    <footer></footer>
+    <!--Finish Footer-->
+
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

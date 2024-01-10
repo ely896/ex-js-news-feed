@@ -1,0 +1,107 @@
+/* #Region Common */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica, sans-serif;
+    font-weight: lighter;
+    background-color: #023047;
+}
+
+:root {
+    --post-geo: #09840f;
+    --post-tech: #070c84;
+    --post-cucina: #77047d;
+    --post-viaggi: #f5a25e;
+    --post-arte: #ffd800;
+    --post-header: #edfbfb;
+}
+
+/* #endRegion Common */
+.container {
+    margin: auto;
+    max-width: 1276px;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.col-5 {
+    width: calc((100% / 12) * 5);
+    margin: 0.5rem 0;
+    background-color: whitesmoke;
+}
+
+/* #Region Utility */
+
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.p05 {
+    padding: 0.5rem 0;
+}
+
+.display-flex {
+    display: flex;
+}
+
+/* #endRegion Utility */
+
+/* #Region Header */
+
+.selectpost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 1rem;
+}
+
+h1 {
+    color: var(--post-header);
+}
+
+/* #endRegion Header */
+
+/* #Region Posts */
+.card {
+
+    margin: 10px;
+    padding: 15px;
+    
+}
+
+.card img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.intestazione {
+    display: flex;
+    justify-content: space-between;
+
+    & .title {
+        text-align: left;
+    }
+
+    & i {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* #endRegion Posts */
+
+
