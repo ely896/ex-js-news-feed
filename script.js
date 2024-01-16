@@ -120,18 +120,21 @@ bookmarks.forEach(bookmark => {
     });
 });
 
+let filteredPosts = 0;
 
 chekboxSavedBookmark.addEventListener('change', function (e) {
 
     e.stopPropagation();  // Stop propagazione dell'evento
     if (this.checked) {
-        const filteredPosts = posts.filter(post => bookmarkedIds.includes(post.id));
+        let filteredPosts = posts.filter(post => bookmarkedIds.includes(post.id));
         displayFilteredPosts(filteredPosts);
         console.log(filteredPosts);
     } else {
         // se checkbox non è selezionato, display all posts
         this.checked = false;
         displayFilteredPosts(posts);
+
+        console.log(posts);
     }
 });
 
@@ -165,7 +168,7 @@ document.getElementById('filtertag').addEventListener('change', function(e) {
 });
 
 
-displayFilteredPosts(filteredPosts);
+
 
 
 
