@@ -60,9 +60,9 @@ function generatePostMarkup(post) {
 
             <img src="${post.immagine}" alt=""${post.title}"">
 
-            <div class="text-align-left">
-                ${post.tags && post.tags[0] ? `<button type="button">${post.tags[0]}</button>` : ''}
-                ${post.tags && post.tags[1] ? `<button type="button">${post.tags[1]}</button>` : ''}
+            <div class="text-align-left">                
+                ${post.tags && post.tags[0] ? `<button type="button" style="background-color: var(--post-${post.tags[0]}); color: white; border-radius: 0.5rem; border: none; width: 50px; height: 30px;">${post.tags[0]}</button>` : ''}
+                ${post.tags && post.tags[1] ? `<button type="button" style="background-color: var(--post-${post.tags[1]}); color: white; border-radius: 0.5rem; border: none; width: 50px; height: 30px;">${post.tags[1]}</button>` : ''}
             </div>
             
         </div>
@@ -107,8 +107,10 @@ let chekboxSavedBookmark = document.getElementById('savedFilter');
 // Array per memorizzare gli ID dei post aggiunti ai segnalibri
 let bookmarkedIds = [];
 
+
 bookmarks.forEach(bookmark => {
     bookmark.addEventListener("click", function (e) {
+
         e.preventDefault;
          
         bookmark.classList.add('fa-solid');
@@ -147,9 +149,12 @@ function displayFilteredPosts(filteredPosts) {
         const markup = generatePostMarkup(post);
         postsRowEl.insertAdjacentHTML('beforeend', markup);
     });
+
+    
 }
 
 // funzione  legata al cambiamento della select
+
 document.getElementById('filtertag').addEventListener('change', function(e) {
     
     e.stopPropagation();  
@@ -160,16 +165,10 @@ document.getElementById('filtertag').addEventListener('change', function(e) {
     if (selectedTag === 'all') {
         filteredPosts = posts;  // Display all posts
     } else {
-        filteredPosts = posts.filter(post => post.tags.includes(selectedTag.toLowerCase()));  // Filtro dei post basato sulla select 
+        // Filtro dei post basato sulla select 
+        filteredPosts = posts.filter(post => post.tags.includes(selectedTag.toLowerCase()));  
     }
 
     // Visualizza i post filtrati sulla pagina
     displayFilteredPosts(filteredPosts);
 });
-
-
-
-
-
-
-
