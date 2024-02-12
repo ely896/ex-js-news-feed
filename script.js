@@ -39,35 +39,37 @@ let posts = [
 
 console.log(posts);
 
-/*  ternary condition: se nella creazione dei post esiste un tags e questo tags ha un valore creo l'elemento button altrimenti no
-    ${post.tags && post.tags[0] ? `<button type="button">${post.tags[0]}</button>` : ''}
-    ${post.tags && post.tags[1] ? `<button type="button">${post.tags[1]}</button>` : ''}
-
-*/
-
 function generatePostMarkup(post) {
+    let tagsMarkup = '';
+    if (post.tags) {
+        for (let i = 0; i < post.tags.length; i++) {
+            tagsMarkup += `<button type="button" style="background-color: var(--post-${post.tags[i]}); color: white; border-radius: 0.5rem; border: none; width: 50px; height: 30px; margin-right: 10px;">${post.tags[i]}</button>`;
+
+        }
+    }
+
     return `
-    <div class="col-5 ">
-        <div class="card data-id="${post.id}">
+    <div class="col-5">
+        <div class="card" data-id="${post.id}">
             <div class="intestazione p05">
                 <h3 class="title">${post.title}</h3>
                 <a href="#"><i id="savedbookmark" data-id="${post.id}" class="fa-regular fa-bookmark"></i></a>
             </div>
 
-            <h5 class="text-align-left p05">Pubblicato da: ${post.author} </h5>
+            <h5 class="text-align-left p05">Pubblicato da: ${post.author}</h5>
             <p class="text-align-left p05">in data: ${post.published}</p>
             <p class="text-align-left p05">${post.content}</p>
 
-            <img src="${post.immagine}" alt=""${post.title}"">
+            <img src="${post.immagine}" alt="${post.title}">
 
-            <div class="text-align-left">                
-                ${post.tags && post.tags[0] ? `<button type="button" style="background-color: var(--post-${post.tags[0]}); color: white; border-radius: 0.5rem; border: none; width: 50px; height: 30px;">${post.tags[0]}</button>` : ''}
-                ${post.tags && post.tags[1] ? `<button type="button" style="background-color: var(--post-${post.tags[1]}); color: white; border-radius: 0.5rem; border: none; width: 50px; height: 30px;">${post.tags[1]}</button>` : ''}
+            <div class="text-align-left">
+                ${tagsMarkup}
             </div>
             
         </div>
     </div>`;
 }
+
 
 
 function reversePublishedDate(array) {
@@ -88,87 +90,76 @@ posts = reversePublishedDate(posts);
 // Log dei post aggiornati per vedere le modifiche
 console.log(posts);
 
-const postsRowEl = document.querySelector('.posts .row');
+function renderPosts(postsToRender) {
+    const postsContainer = document.querySelector('.posts .row');
+    postsContainer.innerHTML = ''; // Pulisce i post esistenti
 
-posts.forEach(post => {
-    const markup = generatePostMarkup(post);
-    postsRowEl.insertAdjacentHTML('beforeend', markup);
-    console.log(markup);
-
-});
-
-//al click sul bookmark l'icona diventa piena e i dati di quella card vengono salvati in un nuovo array 
-//quando seleziono il checkbox saranno stampati in pagina
-
-
-const bookmarks = document.querySelectorAll('.fa-bookmark');
-let chekboxSavedBookmark = document.getElementById('savedFilter');
-
-// Array per memorizzare gli ID dei post aggiunti ai segnalibri
-let bookmarkedIds = [];
-
-
-bookmarks.forEach(bookmark => {
-    bookmark.addEventListener("click", function (e) {
-
-        e.preventDefault;
-         
-        bookmark.classList.add('fa-solid');
-        const postId = this.getAttribute('data-id');
-        if (!bookmarkedIds.includes(postId)) {
-            bookmarkedIds.push(postId);
-        } 
-        console.log(bookmarkedIds);
-    });
-});
-
-let filteredPosts = 0;
-
-chekboxSavedBookmark.addEventListener('change', function (e) {
-
-    e.stopPropagation();  // Stop propagazione dell'evento
-    if (this.checked) {
-        let filteredPosts = posts.filter(post => bookmarkedIds.includes(post.id));
-        displayFilteredPosts(filteredPosts);
-        console.log(filteredPosts);
-    } else {
-        // se checkbox non è selezionato, display all posts
-        this.checked = false;
-        displayFilteredPosts(posts);
-
-        console.log(posts);
-    }
-});
-
-function displayFilteredPosts(filteredPosts) {
-    // Cancella tutti i post presenti
-    postsRowEl.innerHTML = '';
-
-    // Stampa i post filtrati
-    filteredPosts.forEach(post => {
-        const markup = generatePostMarkup(post);
-        postsRowEl.insertAdjacentHTML('beforeend', markup);
+    postsToRender.forEach(post => {
+        const postMarkup = generatePostMarkup(post);
+        postsContainer.innerHTML += postMarkup;
     });
 
-    
+    // Evento Listener sul bookmark 
+    document.querySelectorAll('.fa-bookmark').forEach(bookmark => {
+        bookmark.addEventListener('click', function() {
+            this.classList.toggle('fa-solid');
+            this.classList.toggle('fa-regular');
+        });
+    });
 }
 
-// funzione  legata al cambiamento della select
 
-document.getElementById('filtertag').addEventListener('change', function(e) {
+document.getElementById('filtertag').addEventListener('change', function() {
+    updatePosts();
+});
+
+document.getElementById('savedFilter').addEventListener('change', function() {
+    updatePosts();
+});
+
+//funzione legata al filtro della select e a quello del checkbox
+function updatePosts() {
+    const selectedTag = document.getElementById('filtertag').value;
+    const bookmarkFilter = document.getElementById('savedFilter').checked;
     
-    e.stopPropagation();  
-    const selectedTag = this.value;  // definizione variabile per ottenere il valore del tag selezionato
+    let filteredPosts = posts.filter(post => {
+        let tagMatch = selectedTag === 'all' || post.tags.includes(selectedTag.toLowerCase());
+        return tagMatch;
+    });
 
-    // Filtro posts basato sul select tag
-    let filteredPosts;
-    if (selectedTag === 'all') {
-        filteredPosts = posts;  // Display all posts
-    } else {
-        // Filtro dei post basato sulla select 
-        filteredPosts = posts.filter(post => post.tags.includes(selectedTag.toLowerCase()));  
+    if (bookmarkFilter) {
+        filteredPosts = filteredPosts.filter(post => {
+            const postElement = document.querySelector(`.card[data-id="${post.id}"] .fa-bookmark`);
+            return postElement && postElement.classList.contains('fa-solid');
+        });
     }
 
-    // Visualizza i post filtrati sulla pagina
-    displayFilteredPosts(filteredPosts);
-});
+    renderPosts(filteredPosts);
+}
+
+updatePosts();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
